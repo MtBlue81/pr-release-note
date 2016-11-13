@@ -1,0 +1,43 @@
+{
+  "name": "pr-release-note",
+  "version": "1.0.0",
+  "description": "Release note from pull requests.",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "webpack",
+    "eslint": "eslint app"
+  },
+  "dependencies": {
+    "axios": "0.15.2",
+    "classnames": "2.2.5",
+    "immutable": "3.8.1",
+    "marked": "0.3.6",
+    "material-ui": "0.16.1",
+    "react": "15.3.2",
+    "react-dom": "15.3.2",
+    "react-immutable-proptypes": "2.1.0",
+    "react-redux": "4.4.5",
+    "react-tap-event-plugin": "1.0.0",
+    "redux": "3.6.0",
+    "redux-actions": "0.13.0",
+    "redux-logger": "2.7.4",
+    "redux-thunk": "2.1.0"
+  },
+  "devDependencies": {
+    "babel": "6.5.2",
+    "babel-core": "6.18.2",
+    "babel-eslint": "7.1.0",
+    "babel-loader": "6.2.7",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-plugin-transform-react-jsx": "6.8.0",
+    "babel-polyfill": "6.16.0",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-react": "6.16.0",
+    "babel-preset-stage-0": "6.16.0",
+    "babel-register": "6.18.0",
+    "eslint": "3.9.1",
+    "eslint-plugin-react": "6.6.0",
+    "json-loader": "0.5.4",
+    "webpack": "1.13.3"
+  }
+}
