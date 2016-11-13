@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Release Note</title>
+    <style type="text/css">
+      body {
+        font-family: "ヒラギノ角ゴシック", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", "Meiryo", "ＭＳ Ｐゴシック", "MS P Gothic", Helvetica, Verdana, Arial, sans-serif;
+      }
+      .refresh-spin {
+        animation: spin 1.0s linear infinite;
+      }
+      @keyframes spin {
+          0% {transform: rotate(0deg);}
+          100% {transform: rotate(360deg);}
+      }
+      .pr-main-contents {
+        display: flex;
+        align-items: center;
+      }
+      .pr-main-contents>* {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='root'></div>
+  </body>
+  <script>require('../../dist/renderer')</script>
+</html>
