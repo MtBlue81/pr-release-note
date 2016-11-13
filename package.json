@@ -1,0 +1,22 @@
+{
+  "name": "electron-for-pr-release-note",
+  "version": "1.0.0",
+  "description": "Electron App for release note from pull requests.",
+  "scripts": {
+    "start": "electron src",
+    "pack:mac": "electron-packager src pr-release-note --platform=darwin --arch=x64 --version=1.4.5"
+  },
+  "directories": {
+    "app": "src"
+  },
+  "author": "MtBlue81",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:MtBlue81/pr-release-note.git"
+  },
+  "devDependencies": {
+    "electron": "1.4.5",
+    "electron-packager": "8.2.0"
+  }
+}
