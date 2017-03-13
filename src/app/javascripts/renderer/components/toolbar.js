@@ -16,7 +16,7 @@ import SettingsDialog from './dialogs/settings';
 import AuthDialog from './dialogs/auth';
 import ErrorMessage from './error_message';
 
-import { fetchTargetPr } from '../actions/pull-requests';
+import { fetch } from '../actions/pull-requests';
 import { listOfPullRequest } from '../models/pull-request';
 
 
@@ -44,7 +44,7 @@ class Toolbar extends Component {
     e.preventDefault();
     if (!this.state.fetching) {
       this.setState({fetching: true});
-      this.props.fetchTargetPr().then(this.onFetched, this.onFetched);
+      this.props.fetch().then(this.onFetched, this.onFetched);
     }
   }
 
@@ -60,6 +60,7 @@ class Toolbar extends Component {
         iconElementLeft={<IconButton onClick={this.onClickFetch}><RefreshIcon className={refreshCls}/></IconButton>}
         iconElementRight={(
           <span style={{display: 'flex', alignItems: 'center'}}>
+            <span>{``}</span>
             <span style={{color: 'white', marginRight: '10px'}}>{`${this.enabledCount} / ${this.totalCount}`}</span>
             <IconButton onClick={() => this.setState({showExporter: true})}><LaunchIcon color='white'/></IconButton>
             <IconButton onClick={() => this.setState({showAuthMenu: true})}><VpnKeyIcon color={this.props.isAuthorized ? 'green' : 'white'}/></IconButton>
@@ -95,11 +96,11 @@ Toolbar.propTypes = {
   pullRequests: listOfPullRequest.isRequired,
   isAuthorized: PropTypes.bool,
   errorMsg: PropTypes.string,
-  fetchTargetPr: PropTypes.func,
+  fetch: PropTypes.func,
 };
 
 Toolbar.defaultProps = {
-  fetchTargetPr: () => {},
+  fetch: () => {},
 };
 
 function mapStateToProps(state = {}) {
@@ -111,7 +112,7 @@ function mapStateToProps(state = {}) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({fetchTargetPr}, dispatch);
+  return bindActionCreators({fetch}, dispatch);
 }
 
 export default connect(

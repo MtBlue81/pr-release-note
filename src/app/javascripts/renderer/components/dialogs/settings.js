@@ -18,22 +18,22 @@ const SettingsDialog = (props = {}) => {
   }, props);
 
   const onBlurDir = (e) => {
-    const dir = e.target.value;
-    if (props.settings.dir !== dir) {
+    const repository = e.target.value;
+    if (props.settings.repository !== repository) {
       props.clearCache({force: true});
     }
-    return props.updateSettings({dir});
+    return props.updateSettings({repository});
   };
 
   return (
     <Dialog {...dialogProps}>
       <TextField
         fullWidth
-        name='directory'
-        hintText='Target directory'
-        floatingLabelText='対象Gitディレクトリ'
+        name='repository'
+        hintText='repository name'
+        floatingLabelText='対象Gitリポジトリ'
         onBlur={onBlurDir}
-        defaultValue={props.settings.dir}
+        defaultValue={props.settings.repository}
       />
       <RaisedButton
         label='PRキャッシュクリア'
