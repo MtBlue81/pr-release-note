@@ -1,4 +1,4 @@
-import { Record, fromJS } from 'immutable';
+import { Record, fromJS, List } from 'immutable';
 import { PropTypes } from 'react';
 import { listOf } from 'react-immutable-proptypes';
 
@@ -8,12 +8,13 @@ export const STATUS_DISABLED = 'disabled';
 const {
   number,
   oneOf,
+  oneOfType,
   shape,
   string,
 } = PropTypes;
 
 export const PullRequestType = shape({
-  number: number.isRequired,
+  number: oneOfType([number, string]).isRequired,
   title: string.isRequired,
   author: string,
   avatarUrl: string,
@@ -38,7 +39,7 @@ const defaultValues = {
   url: '',
   status: STATUS_ENABLED,
   state: '', // githubのステータス
-  labels: [],
+  labels: List([]),
   group: '',
   body: '',
   mergedAt: '',

@@ -50,7 +50,7 @@ function pick(pr) {
     url: pr.html_url,
     state: pr.state,
     body: pr.body,
-    labels: pr.label ? pr.labels.map((l) => l.name) : [],
+    labels: pr.labels ? pr.labels.map((l) => l.name) : [],
   };
 }
 

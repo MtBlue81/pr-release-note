@@ -8,11 +8,14 @@ export function fetch() {
   return (dispatch, getState) => {
     const settings = getState().settings;
     let page = 1;
-    let previousPr;
+    let previousPr = getState().releases.get('previous');
 
     dispatch(CLEAR_ERROR());
     return getPreviousReleasePr(settings)
       .then((pr) => {
+        if (previousPr && previousPr.number !== pr.number) {
+          dispatch(CLEAR_PR_CACHE({force: true}));
+        }
         previousPr = pr;
         dispatch(UPDATE_PREV_RELEASE(previousPr));
         return fetchPullRequests(previousPr, page, settings);
@@ -24,8 +27,7 @@ export function fetch() {
   };
 }
 function afterResponse(prs, previousPr, page, settings, dispatch) {
-  dispatch(UPDATE_PULL_REQUESTS({prs}));
-  fetchLabels(prs.map((pr) => pr.number), settings).then((prs) => UPDATE_PULL_REQUEST({prs}));
+  fetchLabels(prs.map((pr) => pr.number), settings).then((prs) => dispatch(UPDATE_PULL_REQUESTS({prs})));
   if (prs.length === 0) { return Promise.resolve(); }
   return fetchPullRequests(previousPr, page, settings)
     .then((prs) => afterResponse(prs, previousPr, ++page, settings, dispatch));

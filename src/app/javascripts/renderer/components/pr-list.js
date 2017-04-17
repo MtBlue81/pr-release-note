@@ -22,7 +22,7 @@ export class PrList extends Component {
       <section>
         <List>
           {
-            this.props.pullRequests.map(
+            this.props.pullRequests.sort((pr) => pr.number).map(
               (pr, idx) => <PrListItem pullRequest={pr} key={idx} onRequestUpdateStatus={this.onRequestUpdateStatus}/>
             )
           }
