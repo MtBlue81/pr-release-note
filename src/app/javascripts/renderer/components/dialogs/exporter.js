@@ -28,7 +28,7 @@ export default class ExporterDialog extends Component {
         if (prs.count() === 0) { return ret; }
         return ret
           .concat(`### ${GROUPS[key]}`)
-          .concat(prs.map((pr) => `- [ ] #${pr.number} ${pr.title} @${pr.author}`));
+          .concat(prs.map((pr) => `- [ ] ${pr.title} @${pr.author}`));
       }, List());
   }
 
