@@ -12,6 +12,9 @@
 ```
 
 ## 画面
-![設定](./image/settings.jpg)
+### 一覧
 ![一覧](./image/result.jpg)
+### Markdown
 ![Markdown](./image/preview.jpg)
+### 設定
+![設定](./image/settings.jpg)
