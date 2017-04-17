@@ -1,31 +1,36 @@
-import { git as execGit, getRepositoryName, getMergedCommits, searchPullRequestIds } from '../services/git';
-import { fetchPullRequests } from '../services/github';
+import { getPreviousReleasePr, fetchPullRequests, fetchLabels } from '../services/github';
+import { UPDATE_PREV_RELEASE } from '../reducers/releases';
 import { UPDATE_SETTINGS } from '../reducers/settings';
 import { UPDATE_PULL_REQUESTS, UPDATE_PULL_REQUEST, CLEAR_PR_CACHE } from '../reducers/pull-requests';
 import { SHOW_ERROR, CLEAR_ERROR } from '../reducers/errors';
 
-export function fetchTargetPr() {
+export function fetch() {
   return (dispatch, getState) => {
     const settings = getState().settings;
-    let currentRepository = settings.repository;
-    const getCurrentSetting = () => settings.set('repository', currentRepository);
+    let page = 1;
+    let previousPr = getState().releases.get('previous');
 
     dispatch(CLEAR_ERROR());
-    return execGit(settings, 'remote', 'update', 'origin')
-      .then(() => getRepositoryName(settings))
-      .then((repository) => {
-        currentRepository = repository;
-        dispatch(UPDATE_SETTINGS({repository}))
+    return getPreviousReleasePr(settings)
+      .then((pr) => {
+        if (previousPr && previousPr.number !== pr.number) {
+          dispatch(CLEAR_PR_CACHE({force: true}));
+        }
+        previousPr = pr;
+        dispatch(UPDATE_PREV_RELEASE(previousPr));
+        return fetchPullRequests(previousPr, page, settings);
       })
-      .then(() => getMergedCommits(getCurrentSetting()))
-      .then((featureSha1s) => searchPullRequestIds(featureSha1s, getCurrentSetting()))
-      .then((idList) => fetchPullRequests(idList, getCurrentSetting()))
-      .then((prs) => dispatch(UPDATE_PULL_REQUESTS({prs})))
+      .then((prs) => afterResponse(prs, previousPr, ++page, settings, dispatch))
       .catch((e) => {
         dispatch(SHOW_ERROR({field: 'common', message: e.message || e}));
-        throw(e);
       });
   };
+}
+function afterResponse(prs, previousPr, page, settings, dispatch) {
+  fetchLabels(prs.map((pr) => pr.number), settings).then((prs) => dispatch(UPDATE_PULL_REQUESTS({prs})));
+  if (prs.length === 0) { return Promise.resolve(); }
+  return fetchPullRequests(previousPr, page, settings)
+    .then((prs) => afterResponse(prs, previousPr, ++page, settings, dispatch));
 }
 
 export function updateStatus(number, status) {

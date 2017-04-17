@@ -25,6 +25,7 @@ const menuTemplate = [{
 
 function createWindow () {
   mainWindow = new BrowserWindow({width: 1200, height: 800});
+  // mainWindow.openDevTools();
 
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, '/../app/html/main.html'),

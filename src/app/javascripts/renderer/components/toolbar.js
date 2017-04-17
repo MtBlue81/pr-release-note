@@ -16,8 +16,8 @@ import SettingsDialog from './dialogs/settings';
 import AuthDialog from './dialogs/auth';
 import ErrorMessage from './error_message';
 
-import { fetchTargetPr } from '../actions/pull-requests';
-import { listOfPullRequest } from '../models/pull-request';
+import { fetch } from '../actions/pull-requests';
+import { listOfPullRequest, PullRequestType } from '../models/pull-request';
 
 
 class Toolbar extends Component {
@@ -44,7 +44,7 @@ class Toolbar extends Component {
     e.preventDefault();
     if (!this.state.fetching) {
       this.setState({fetching: true});
-      this.props.fetchTargetPr().then(this.onFetched, this.onFetched);
+      this.props.fetch().then(this.onFetched, this.onFetched);
     }
   }
 
@@ -60,7 +60,10 @@ class Toolbar extends Component {
         iconElementLeft={<IconButton onClick={this.onClickFetch}><RefreshIcon className={refreshCls}/></IconButton>}
         iconElementRight={(
           <span style={{display: 'flex', alignItems: 'center'}}>
-            <span style={{color: 'white', marginRight: '10px'}}>{`${this.enabledCount} / ${this.totalCount}`}</span>
+            <div style={{color: 'white', marginRight: '10px'}}>
+              <span>{`前回: ${this.props.previousPr.title}`}</span>
+              <span style={{marginLeft: '20px'}}>{`${this.enabledCount} / ${this.totalCount}`}</span>
+            </div>
             <IconButton onClick={() => this.setState({showExporter: true})}><LaunchIcon color='white'/></IconButton>
             <IconButton onClick={() => this.setState({showAuthMenu: true})}><VpnKeyIcon color={this.props.isAuthorized ? 'green' : 'white'}/></IconButton>
             <IconButton onClick={() => this.setState({showMenu: true})}><MoreVertIcon color='white'/></IconButton>
@@ -92,18 +95,20 @@ class Toolbar extends Component {
 }
 
 Toolbar.propTypes = {
+  previousPr: PullRequestType,
   pullRequests: listOfPullRequest.isRequired,
   isAuthorized: PropTypes.bool,
   errorMsg: PropTypes.string,
-  fetchTargetPr: PropTypes.func,
+  fetch: PropTypes.func,
 };
 
 Toolbar.defaultProps = {
-  fetchTargetPr: () => {},
+  fetch: () => {},
 };
 
 function mapStateToProps(state = {}) {
   return {
+    previousPr: state.releases.get('previous'),
     isAuthorized: state.settings.isAuthorized,
     errorMsg: state.errors.get('message'),
     pullRequests: state.pullRequests,
@@ -111,7 +116,7 @@ function mapStateToProps(state = {}) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({fetchTargetPr}, dispatch);
+  return bindActionCreators({fetch}, dispatch);
 }
 
 export default connect(

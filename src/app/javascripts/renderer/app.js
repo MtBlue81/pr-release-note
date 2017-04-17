@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import settings from './reducers/settings';
 import pullRequests from './reducers/pull-requests';
+import releases from './reducers/releases';
 import errors from './reducers/errors';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -18,6 +19,7 @@ import Toolbar from './components/toolbar';
 
 const reducer = combineReducers({
   pullRequests,
+  releases,
   settings,
   errors,
 });

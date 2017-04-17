@@ -38,16 +38,10 @@ export default class PrListItem extends Component {
         <Avatar src={pr.avatarUrl} onClick={this.onClickAuthor}/>
         <a href={pr.url} onClick={this.onClickNumber}>{`#${pr.number}`}</a>
         <span style={{flexGrow: 1}}>{pr.title}</span>
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        <div style={{display: 'flex' }}>
           {
             pr.labels.map((label, idx) => {
-              return <Chip onClick={(e) => {
-                if (e.target.tagName.toLowerCase() === 'path') {
-                  alert('on delete');
-                }
-                e.preventDefault();
-              }} onRequestDelete={() => {}}
-              style={{margin: '0 5px'}} key={idx}>{label}</Chip>;
+              return <Chip onClick={(e) => e.preventDefault()} style={{margin: '0 5px'}} key={idx}>{label}</Chip>;
             })
           }
         </div>

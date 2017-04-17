@@ -8,7 +8,6 @@ const {
   } = PropTypes;
 
 export const SettingsType = shape({
-  dir: string,
   productionBranch: string,
   stagingBranch: string,
   maxBuffer: number,
@@ -17,7 +16,6 @@ export const SettingsType = shape({
 });
 
 const defaultValues = {
-  dir: '',
   productionBranch: 'master',
   stagingBranch: 'develop',
   maxBuffer: 2000*1024,
