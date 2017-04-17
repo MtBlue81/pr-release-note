@@ -11,6 +11,10 @@ function getStoredValue() {
 }
 
 export const handlers = {
+  CLEAR_PR_CACHE: (state) => {
+    localStorage.removeItem(storageKey);
+    return state;
+  },
   UPDATE_PREV_RELEASE: (state, { payload }) => {
     localStorage.setItem(storageKey, JSON.stringify(payload));
     return state.set('previous', new PullRequest(payload));

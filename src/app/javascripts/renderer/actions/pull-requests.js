@@ -17,7 +17,7 @@ export function fetch() {
           dispatch(CLEAR_PR_CACHE({force: true}));
         }
         previousPr = pr;
-        previousPr && dispatch(UPDATE_PREV_RELEASE(previousPr));
+        dispatch(UPDATE_PREV_RELEASE(previousPr));
         return fetchPullRequests(previousPr, page, settings);
       })
       .then((prs) => afterResponse(prs, previousPr, ++page, settings, dispatch))
