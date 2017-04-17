@@ -13,11 +13,11 @@ export function fetch() {
     dispatch(CLEAR_ERROR());
     return getPreviousReleasePr(settings)
       .then((pr) => {
-        if (previousPr && previousPr.number !== pr.number) {
+        if (previousPr && pr && previousPr.number !== pr.number) {
           dispatch(CLEAR_PR_CACHE({force: true}));
         }
         previousPr = pr;
-        dispatch(UPDATE_PREV_RELEASE(previousPr));
+        previousPr && dispatch(UPDATE_PREV_RELEASE(previousPr));
         return fetchPullRequests(previousPr, page, settings);
       })
       .then((prs) => afterResponse(prs, previousPr, ++page, settings, dispatch))

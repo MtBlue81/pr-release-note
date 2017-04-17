@@ -10,7 +10,8 @@ export function getPreviousReleasePr(settings) {
     params: { access_token: settings.token, state: 'closed', base: 'master' },
   }).then((prs) => {
     if (!prs || !prs.data || prs.data.length === 0) {
-      throw 'no previous release pr.';
+      console.info('no previous release pr.');
+      return;
     }
     return prs.data[0];
   });
@@ -20,7 +21,7 @@ export function fetchPullRequests(previousPr, page, settings) {
   if (!settings.token) {
     return Promise.reject('Githubの認可が必要です.')
   }
-  const from = new Date(previousPr.created_at);
+  const from = previousPr ? new Date(previousPr.created_at) : 0;
   return axios.get(`${GITHUB_HOST}/repos/${settings.repository}/pulls`, {
     params: { access_token: settings.token, state: 'closed', base: 'develop', page },
   })
