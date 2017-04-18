@@ -16,6 +16,9 @@ export const handlers = {
     return state;
   },
   UPDATE_PREV_RELEASE: (state, { payload }) => {
+    if (!payload) {
+      return state;
+    }
     localStorage.setItem(storageKey, JSON.stringify(payload));
     return state.set('previous', new PullRequest(payload));
   },
